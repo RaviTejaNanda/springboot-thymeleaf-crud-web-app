@@ -10,41 +10,45 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
-///////
 
-    ///??????
     @GetMapping("/")
-    public String viewhomepage(Model model){
+    public String viewhomepage(Model model) {
 
         model.addAttribute("listEmployees", employeeService.getallemployees());
         return "index";
     }
-    @GetMapping("/showNewEmployeeForm")
-    public String shownnewemployeeform(Model model){
+//  added new line
+@GetMapping("/showNewEmployeeForm")
+    public String shownnewemployeeform(Model model) {
         Employee employee = new Employee();
         model.addAttribute("employee", employee);
         return "new_employee";
     }
+
     @PostMapping("/saveEmployee")
-    public String saveemployee(@ModelAttribute("employee") Employee employee){
+    public String saveemployee(@ModelAttribute("employee") Employee employee) {
         employeeService.saveemployee(employee);
         return "redirect:/";
     }
 
     @GetMapping("/showFormForUpdate/{id}")
-    public String showFormForUpdate(@PathVariable(value ="id") long id , Model model){
+    public String showFormForUpdate(@PathVariable(value = "id") long id, Model model) {
         Employee employee = employeeService.getemployeebyid(id);
         model.addAttribute("employee", employee);
         return "update_employee";
 
     }
-@GetMapping("/deleteEmployee/{id}")
-    public String deleteEmployee(@PathVariable(value = "id") long id){
-employeeService.deleteEmployeeById(id);
-    return "redirect:/";
-}
+
+    @GetMapping("/deleteEmployee/{id}")
+    public String deleteEmployee(@PathVariable(value = "id") long id) {
+        employeeService.deleteEmployeeById(id);
+        return "redirect:/";
+
+    }
 }
